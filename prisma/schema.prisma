@@ -13,3 +13,29 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Lead {
+  id               Int        @id @default(autoincrement())
+  name             String
+  email            String
+  phone            String
+  cpf              String
+  city             String
+  state            String
+  supplyType       SupplyType
+  monthlyBillValue Float
+  createdAt        DateTime   @default(now())
+}
+
+model Admin {
+  id        Int       @id @default(autoincrement())
+  email     String
+  password  String
+  createdAt DateTime @default(now())
+}
+
+enum SupplyType {
+  MONOPHASIC
+  BIPHASIC
+  TRIPHASIC
+}
