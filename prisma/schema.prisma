@@ -6,7 +6,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -19,7 +18,7 @@ model Lead {
   name             String
   email            String
   phone            String
-  cpf              String
+  cpf              String     @unique
   city             String
   state            String
   supplyType       SupplyType
@@ -29,9 +28,9 @@ model Lead {
 
 model Admin {
   id        Int       @id @default(autoincrement())
-  email     String
+  email     String    @unique
   password  String
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
 }
 
 enum SupplyType {

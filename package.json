@@ -1,4 +1,9 @@
 {
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
     "@prisma/client": "^6.9.0",
