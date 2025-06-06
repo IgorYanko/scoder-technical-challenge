@@ -23,7 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
    if (req.method === 'POST') {
       const { name, email, phone, cpf, city, state, supplyType, monthlyBillValue } = req.body;
 
-      if (!name || !email || !phone || !cpf || !city || !state || !supplyType || monthlyBillValue) {
+      if (!name || !email || !phone || !cpf || !city || !state || !supplyType || !monthlyBillValue) {
          return res.status(400).json({ error: 'Missing required fields' });
       }
 
