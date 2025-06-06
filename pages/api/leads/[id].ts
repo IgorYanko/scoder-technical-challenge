@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { PrismaClient } from '@prisma/client';
+import { verifyToken } from '../../../lib/auth';
 
 const prisma = new PrismaClient();
 
@@ -7,6 +8,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
    const { id } = req.query;
 
    if (req.method === 'DELETE') {
+      const user = verifyToken(req);
+
+      if (!user) {
+         return res.status(401).json({ error: 'Unauthorized' });
+      }
       try {
          await prisma.lead.delete({
             where: { id: Number(id) },
