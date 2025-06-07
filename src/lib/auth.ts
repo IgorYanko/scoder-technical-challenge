@@ -6,7 +6,7 @@ export interface AuthPayload {
   email: string;
 }
 
-export function verifyToken(req: NextApiRequest): AuthPayload | null {
+export default function verifyToken(req: NextApiRequest): AuthPayload | null {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
