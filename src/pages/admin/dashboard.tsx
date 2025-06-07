@@ -66,7 +66,9 @@ export default function Dashboard({ initialLeads, token }: DashboardProps) {
         <button
           onClick={handleLogout}
           className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
-        ></button>
+        >
+         Sair
+        </button>
       </div>
       <table className="min-w-full bg-white">
         <thead>
@@ -126,8 +128,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     };
   }
 
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
-  const apiResponse = await fetch(`${apiUrl}/api/leads`, {
+  const apiResponse = await fetch('http://localhost:3000/api/leads', {
     headers: {
       Authorization: `Bearer ${token}`,
     },

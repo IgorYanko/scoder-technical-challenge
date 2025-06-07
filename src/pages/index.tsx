@@ -1,27 +1,23 @@
-import { useState } from "react";
-import SimulationForm from "../components/simulation/SimulationForm";
-import SavingsResult, { SavingsData } from "../components/result/SavingsResult";
-import LoginPage from "./admin/login";
+import { useState } from 'react';
+import SimulationForm from '../components/simulation/SimulationForm';
+import SavingsResult, { SavingsData } from '../components/result/SavingsResult';
 
 export default function HomePage() {
-  const [simulationResult, setSimulationResult] = useState<SavingsData | null>(
-    null
-  );
+  const [simulationResult, setSimulationResult] = useState<SavingsData | null>(null);
 
   const handleSuccess = (data: SavingsData) => {
     setSimulationResult(data);
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gray-100 p-4">
+    <div className="flex flex-col items-center justify-center p-4 sm:p-6 lg:p-8">
       <div className="w-full max-w-2xl">
-        {/* {simulationResult ? (
+        {simulationResult ? (
           <SavingsResult result={simulationResult} />
         ) : (
           <SimulationForm onSuccess={handleSuccess} />
-        )} */}
-        <LoginPage></LoginPage>
+        )}
       </div>
-    </main>
+    </div>
   );
 }
