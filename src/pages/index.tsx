@@ -1,10 +1,12 @@
-import { useState } from 'react';
-import SimulationForm from '../components/simulation/SimulationForm';
-import SavingsResult, { SavingsData } from '../components/result/SavingsResult';
-import LoginPage from './admin/login';
+import { useState } from "react";
+import SimulationForm from "../components/simulation/SimulationForm";
+import SavingsResult, { SavingsData } from "../components/result/SavingsResult";
+import LoginPage from "./admin/login";
 
 export default function HomePage() {
-  const [simulationResult, setSimulationResult] = useState<SavingsData | null>(null);
+  const [simulationResult, setSimulationResult] = useState<SavingsData | null>(
+    null
+  );
 
   const handleSuccess = (data: SavingsData) => {
     setSimulationResult(data);
