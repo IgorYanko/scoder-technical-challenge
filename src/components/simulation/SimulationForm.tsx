@@ -73,11 +73,11 @@ export default function SimulationForm({ onSuccess }: SimulationFormProps) {
       try {
          const response = await fetch('/api/leads', {
             method: 'POST',
-            headers: {
-               'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data),
          });
+
+         const responseData = await response.json();
 
          if (response.ok) {
             const discount = 0.25;
@@ -94,11 +94,9 @@ export default function SimulationForm({ onSuccess }: SimulationFormProps) {
 
             onSuccess(resultData);
          } else {
-            const errorData = await response.json();
-            alert(`Erro ao enviar: ${errorData.error || 'Tente novamente.'}`);
+            alert(`Erro ao enviar: ${responseData.error || 'Tente novamente.'}`);
          }
       } catch (error) {
-         console.error('Falha ao enviar o formulário', error);
          alert('Ocorreu um erro de conexão. Por favor, tente novamente.');
       } finally {
          setIsLoading(false);
