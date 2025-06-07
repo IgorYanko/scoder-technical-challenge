@@ -2,6 +2,7 @@ import { GetServerSideProps } from "next";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import nookies from "nookies";
+import { prisma } from "../../lib/prisma";
 
 interface Lead {
   id: number;
@@ -67,7 +68,7 @@ export default function Dashboard({ initialLeads, token }: DashboardProps) {
           onClick={handleLogout}
           className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
         >
-         Sair
+          Sair
         </button>
       </div>
       <table className="min-w-full bg-white">
@@ -120,37 +121,28 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const token = cookies.token;
 
   if (!token) {
-    return {
-      redirect: {
-        destination: "/admin/login",
-        permanent: false,
-      },
-    };
+    return { redirect: { destination: "/admin/login", permanent: false } };
   }
 
-  const apiResponse = await fetch('http://localhost:3000/api/leads', {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  try {
+    const leadsFromDb = await prisma.lead.findMany({
+      orderBy: { createdAt: "desc" },
+    });
 
-  let initialLeads: Lead[] = [];
-  if (apiResponse.ok) {
-    initialLeads = await apiResponse.json();
-  } else {
-    nookies.destroy(ctx, "token");
+    const initialLeads = leadsFromDb.map((lead) => ({
+      ...lead,
+      createdAt: lead.createdAt.toISOString(),
+    }));
+
     return {
-      redirect: {
-        destination: "/admin/login",
-        permanent: false,
+      props: {
+        initialLeads,
+        token,
       },
     };
+  } catch (error) {
+    console.error("Falha ao buscar leads no getServerSideProps:", error);
+    nookies.destroy(ctx, "token", { path: "/" });
+    return { redirect: { destination: "/admin/login", permanent: false } };
   }
-
-  return {
-    props: {
-      initialLeads,
-      token,
-    },
-  };
 };
