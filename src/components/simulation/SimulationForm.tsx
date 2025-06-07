@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { SavingsData } from '../result/SavingsResult';
 
 interface IBGEState {
    id: number;
@@ -14,6 +15,10 @@ interface IBGEState {
 interface IBGECity {
    id: number;
    nome: string;
+}
+
+interface SimulationFormProps {
+   onSuccess: (data: SavingsData) => void;
 }
 
 const leadSchema = z.object({
@@ -30,7 +35,7 @@ const leadSchema = z.object({
 
 type LeadFormData = z.infer<typeof leadSchema>;
 
-export default function SimulationForm() {
+export default function SimulationForm({ onSuccess }: SimulationFormProps) {
    const [states, setStates] = useState<IBGEState[]>([]);
    const [cities, setCities] = useState<IBGECity[]>([]);
    const [isLoading, setIsLoading] = useState(false);
@@ -75,7 +80,19 @@ export default function SimulationForm() {
          });
 
          if (response.ok) {
-            alert('Simulação enviada com sucesso!');
+            const discount = 0.25;
+            const monthlySaving = data.monthlyBillValue * discount;
+
+            const resultData: SavingsData = {
+               totalPaidIn1Year: data.monthlyBillValue * 12,
+               savedIn1Year: monthlySaving * 12,
+               totalPaidIn3Years: data.monthlyBillValue * 36,
+               savedIn3Years: monthlySaving * 36,
+               totalPaidIn5Years: data.monthlyBillValue * 60,
+               savedIn5Years: monthlySaving * 60
+            };
+
+            onSuccess(resultData);
          } else {
             const errorData = await response.json();
             alert(`Erro ao enviar: ${errorData.error || 'Tente novamente.'}`);
@@ -94,31 +111,31 @@ export default function SimulationForm() {
 
         <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-700">Nome Completo</label>
-            <input id="name" type="text" {...register('name')} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
+            <input id="name" type="text" {...register('name')} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500" />
             {errors.name && <p className="mt-2 text-sm text-red-600">{errors.name.message}</p>}
         </div>
 
         <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">E-mail</label>
-            <input id="email" type="email" {...register('email')} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
+            <input id="email" type="email" {...register('email')} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500" />
             {errors.email && <p className="mt-2 text-sm text-red-600">{errors.email.message}</p>}
         </div>
 
         <div>
             <label htmlFor="phone" className="block text-sm font-medium text-gray-700">Telefone</label>
-            <input id="phone" type="tel" {...register('phone')} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
+            <input id="phone" type="tel" {...register('phone')} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500" />
             {errors.phone && <p className="mt-2 text-sm text-red-600">{errors.phone.message}</p>}
         </div>
 
         <div>
             <label htmlFor="cpf" className="block text-sm font-medium text-gray-700">CPF</label>
-            <input id="cpf" type="text" {...register('cpf')} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
+            <input id="cpf" type="text" {...register('cpf')} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500" />
             {errors.cpf && <p className="mt-2 text-sm text-red-600">{errors.cpf.message}</p>}
         </div>
 
         <div>
             <label htmlFor="state" className="block text-sm font-medium text-gray-700">Estado</label>
-            <select id="state" {...register('state')} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+            <select id="state" {...register('state')} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500">
               <option value="">Selecione um estado</option>
               {states.map(state => (
                   <option key={state.id} value={state.sigla}>{state.nome}</option>
@@ -129,7 +146,7 @@ export default function SimulationForm() {
 
         <div>
             <label htmlFor="city" className="block text-sm font-medium text-gray-700">Cidade</label>
-            <select id="city" {...register('city')} disabled={cities.length === 0} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 disabled:bg-gray-100">
+            <select id="city" {...register('city')} disabled={cities.length === 0} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 disabled:bg-gray-100">
               <option value="">Selecione uma cidade</option>
               {cities.map(city => (
                   <option key={city.id} value={city.nome}>{city.nome}</option>
@@ -140,7 +157,7 @@ export default function SimulationForm() {
 
         <div>
             <label htmlFor="supplyType" className="block text-sm font-medium text-gray-700">Tipo de Fornecimento</label>
-            <select id="supplyType" {...register('supplyType')} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+            <select id="supplyType" {...register('supplyType')} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500">
               <option value="">Selecione o tipo</option>
               <option value="MONOPHASIC">Monofásico</option>
               <option value="BIPHASIC">Bifásico</option>
@@ -151,7 +168,7 @@ export default function SimulationForm() {
 
         <div>
             <label htmlFor="monthlyBillValue" className="block text-sm font-medium text-gray-700">Valor da sua conta de luz (R$)</label>
-            <input id="monthlyBillValue" type="number" step="0.01" {...register('monthlyBillValue', { valueAsNumber: true })} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
+            <input id="monthlyBillValue" type="number" step="0.01" {...register('monthlyBillValue', { valueAsNumber: true })} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500" />
             {errors.monthlyBillValue && <p className="mt-2 text-sm text-red-600">{errors.monthlyBillValue.message}</p>}
         </div>
 
