@@ -1,5 +1,5 @@
-import { NextApiRequest } from "next";
-import jwt from "jsonwebtoken";
+import { NextApiRequest } from 'next';
+import jwt from 'jsonwebtoken';
 
 export interface AuthPayload {
    adminId: number;
