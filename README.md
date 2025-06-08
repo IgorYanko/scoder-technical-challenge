@@ -51,7 +51,7 @@ Senha: 123456
 | **Backend**     | Next.js API Routes                               |
 | **Validação**   | React Hook Form + Zod                            |
 | **Banco de Dados** | PostgreSQL (via Docker)                       |
-| **Deploy**      | Vercel                                           |
+| **Deploy**      | Vercel + Railway                                 |
 | **Auxiliares**  | DBeaver (visualização do banco)                 |
 |                 | Postman (criação de admin, testes de API)       |
 |                 | Gemini Pro (boas práticas e resolução de erros) |
