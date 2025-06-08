@@ -17,6 +17,7 @@ Você pode acessar a aplicação hospedada na **Vercel** através do link abaixo
 Para acessar a parte de admnistrador use as seguintes credenciais:
 
 Email: scoder@cleanenergy.com
+
 Senha: 123456
 
 🔗 **[https://scoder-technical-challenge-6jflcdh3h-igor-yankos-projects.vercel.app](https://scoder-technical-challenge-6jflcdh3h-igor-yankos-projects.vercel.app)**
